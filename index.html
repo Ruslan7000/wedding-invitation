@@ -325,82 +325,54 @@
     <div class="leaf-divider" style="margin:34px 0;"><span class="line"></span><i class="fa-solid fa-heart"></i><span class="line"></span></div>
 
     
-    <div class="section-title">ПІДТВЕРДЖЕННЯ ПРИСУТНОСТІ</div>
-    <p class="body-text">Будемо вдячні, якщо ви підтвердите свою присутність до <strong>01.08.2026</strong>.</p>
+<div class="section-title">ПІДТВЕРДЖЕННЯ ПРИСУТНОСТІ</div>
+<p class="body-text">Будемо вдячні, якщо ви підтвердите свою присутність до <strong>01.08.2026</strong>.</p>
 
-    <style>
-      .rsvp-form{max-width:480px;margin:20px auto;text-align:left}
-      .rsvp-form input,.rsvp-form select,.rsvp-form textarea{
-        width:100%;padding:12px 14px;margin:8px 0 16px;border:1px solid #d9c9a4;
-        border-radius:10px;font-family:'PT Serif',serif;font-size:16px;
-      }
-      .rsvp-form label{display:block;margin-top:8px;font-weight:bold;color:#556146}
-      .radio-group{display:flex;gap:20px;margin:12px 0 16px}
-      .radio-group label{font-weight:normal}
-      .success-msg{display:none;text-align:center;color:#556146;font-size:20px;margin-top:20px}
-    </style>
+<form action="https://docs.google.com/forms/d/e/1FAIpQLSeE-wTzyYno55MVCK3KZXyQdjDfWj8ocYKppBcwcKkyL7J29g/formResponse"
+method="POST" target="hidden_iframe"
+onsubmit="setTimeout(function(){document.getElementById('rsvpForm').style.display='none';document.getElementById('thanks').style.display='block';},500);"
+id="rsvpForm">
 
-    <form class="rsvp-form" id="rsvpForm">
-      <label>Ім'я та прізвище</label>
-      <input type="text" id="name" required>
+<p><strong>Ім'я та прізвище</strong></p>
+<input required name="entry.2030944626" style="width:100%;padding:12px;border-radius:8px;border:1px solid #ccc;">
 
-      <label>Чи будете Ви присутні?</label>
-      <div class="radio-group">
-        <label><input type="radio" name="attendance" value="Так" checked> Так ❤️</label>
-        <label><input type="radio" name="attendance" value="Ні"> Ні 😔</label>
-      </div>
+<p><strong>Чи будете Ви присутні?</strong></p>
+<select id="attendance" name="entry.699482240" style="width:100%;padding:12px;border-radius:8px;">
+<option value="Так">Так ❤️</option>
+<option value="Ні">Ні 😔</option>
+</select>
 
-      <div id="guestsWrap">
-        <label>Кількість гостей</label>
-        <select id="guests">
-          <option>1</option>
-          <option>2</option>
-        </select>
-      </div>
+<div id="guestBlock">
+<p><strong>Кількість гостей</strong></p>
+<select name="entry.1853796614" style="width:100%;padding:12px;border-radius:8px;">
+<option value="1">1</option>
+<option value="2">2</option>
+</select>
+</div>
 
-      <label>Коментар</label>
-      <textarea id="comment" rows="3"></textarea>
+<br>
+<button class="rsvp-button" type="submit">
+<i class="fa-solid fa-heart"></i>
+Підтвердити
+</button>
 
-      <button type="submit" class="rsvp-button">
-        <i class="fa-solid fa-heart"></i>
-        Підтвердити
-      </button>
-    </form>
+</form>
 
-    <div class="success-msg" id="successMsg">
-      ❤️ Дякуємо! Ми отримали Вашу відповідь.
-    </div>
+<iframe name="hidden_iframe" style="display:none;"></iframe>
+
+<div id="thanks" style="display:none;text-align:center;">
+<h2 style="color:#556146;">❤️ Дякуємо!</h2>
+<p>Ми отримали Вашу відповідь.</p>
+</div>
 
 <script>
-const SCRIPT_URL="https://script.google.com/macros/s/AKfycbzu5W5G9H-onlbxNnBNvVv4e6viX5ZRbjVy_f2nOiepBUX6EivhQqXdqnzvJptK3UBc/exec";
-
-document.querySelectorAll('input[name="attendance"]').forEach(r=>{
- r.addEventListener('change',()=>{
-   document.getElementById('guestsWrap').style.display=
-   r.value==="Так" && r.checked ? "block":"none";
- });
-});
-
-document.getElementById("rsvpForm").addEventListener("submit",async(e)=>{
- e.preventDefault();
- const data={
-   name:document.getElementById("name").value,
-   attendance:document.querySelector('input[name="attendance"]:checked').value,
-   guests:document.querySelector('input[name="attendance"]:checked').value==="Так"?document.getElementById("guests").value:"0",
-   comment:document.getElementById("comment").value
- };
- await fetch(SCRIPT_URL,{
-   method:"POST",
-   headers:{"Content-Type":"application/json"},
-   body:JSON.stringify(data)
- });
- document.getElementById("rsvpForm").style.display="none";
- document.getElementById("successMsg").style.display="block";
+document.getElementById("attendance").addEventListener("change",function(){
+document.getElementById("guestBlock").style.display=this.value==="Так"?"block":"none";
 });
 </script>
 
+<div class="signoff">
 
-    <div class="signoff">
       <div class="love">З любов'ю,</div>
       <div class="names">Руслан &amp; Ева</div>
     </div>
