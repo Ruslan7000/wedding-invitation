@@ -366,9 +366,21 @@ id="rsvpForm">
 </div>
 
 <script>
-document.getElementById("attendance").addEventListener("change",function(){
-document.getElementById("guestBlock").style.display=this.value==="Так"?"block":"none";
+const attendance = document.getElementById("attendance");
+const guestBlock = document.getElementById("guestBlock");
+const guestSelect = guestBlock.querySelector("select");
+
+attendance.addEventListener("change", function () {
+    if (this.value === "Так") {
+        guestBlock.style.display = "block";
+        guestSelect.disabled = false;
+    } else {
+        guestBlock.style.display = "none";
+        guestSelect.disabled = true;
+    }
 });
+
+attendance.dispatchEvent(new Event("change"));
 </script>
 
 <div class="signoff">
