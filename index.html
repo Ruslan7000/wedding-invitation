@@ -325,42 +325,31 @@
     <div class="leaf-divider" style="margin:34px 0;"><span class="line"></span><i class="fa-solid fa-heart"></i><span class="line"></span></div>
 
     
+
 <div class="section-title">ПІДТВЕРДЖЕННЯ ПРИСУТНОСТІ</div>
 <p class="body-text">Будемо вдячні, якщо ви підтвердите свою присутність до <strong>01.08.2026</strong>.</p>
 
-<form action="https://docs.google.com/forms/d/e/1FAIpQLSeE-wTzyYno55MVCK3KZXyQdjDfWj8ocYKppBcwcKkyL7J29g/formResponse"
-method="POST" target="hidden_iframe"
-onsubmit="setTimeout(function(){document.getElementById('rsvpForm').style.display='none';document.getElementById('thanks').style.display='block';},500);"
-id="rsvpForm">
-
-<input type="hidden" id="pageHistory" name="pageHistory" value="0,1">
-
+<form id="rsvpForm">
 <p><strong>Ім'я та прізвище</strong></p>
-<input required name="entry.2030944626" style="width:100%;padding:12px;border-radius:8px;border:1px solid #ccc;">
+<input id="name" required style="width:100%;padding:12px;border-radius:8px;border:1px solid #ccc;">
 
 <p><strong>Чи будете Ви присутні?</strong></p>
-<select id="attendance" name="entry.699482240" style="width:100%;padding:12px;border-radius:8px;">
+<select id="attendance" style="width:100%;padding:12px;border-radius:8px;">
 <option value="Так">Так ❤️</option>
 <option value="Ні">Ні 😔</option>
 </select>
 
 <div id="guestBlock">
 <p><strong>Кількість гостей</strong></p>
-<select name="entry.1853796614" style="width:100%;padding:12px;border-radius:8px;">
+<select id="guests" style="width:100%;padding:12px;border-radius:8px;">
 <option value="1">1</option>
 <option value="2">2</option>
 </select>
 </div>
 
 <br>
-<button class="rsvp-button" type="submit">
-<i class="fa-solid fa-heart"></i>
-Підтвердити
-</button>
-
+<button class="rsvp-button" type="submit"><i class="fa-solid fa-heart"></i> Підтвердити</button>
 </form>
-
-<iframe name="hidden_iframe" style="display:none;"></iframe>
 
 <div id="thanks" style="display:none;text-align:center;">
 <h2 style="color:#556146;">❤️ Дякуємо!</h2>
@@ -368,27 +357,36 @@ id="rsvpForm">
 </div>
 
 <script>
-const attendance = document.getElementById("attendance");
-const guestBlock = document.getElementById("guestBlock");
-const guestSelect = guestBlock.querySelector("select");
-const pageHistory = document.getElementById("pageHistory");
+const attendance=document.getElementById("attendance");
+const guestBlock=document.getElementById("guestBlock");
 
-attendance.addEventListener("change", function () {
-    if (this.value === "Так") {
-        guestBlock.style.display = "block";
-        guestSelect.disabled = false;
-        pageHistory.value = "0,1";
-    } else {
-        guestBlock.style.display = "none";
-        guestSelect.disabled = true;
-        pageHistory.value = "0";
-    }
+attendance.addEventListener("change",()=>{
+ guestBlock.style.display=attendance.value==="Так"?"block":"none";
 });
-
 attendance.dispatchEvent(new Event("change"));
+
+document.getElementById("rsvpForm").addEventListener("submit",async(e)=>{
+ e.preventDefault();
+ const payload={
+   name:document.getElementById("name").value,
+   attendance:attendance.value,
+   guests:attendance.value==="Так"?document.getElementById("guests").value:""
+ };
+ try{
+   await fetch("https://script.google.com/macros/s/AKfycbwa7tQexRTC5p-5WneRVtg4p3L3TdoHRxYGHYuh9fNK1eDNmxG2_iga8vcrbx_OVFBA7g/exec",{
+      method:"POST",
+      body:JSON.stringify(payload)
+   });
+   document.getElementById("rsvpForm").style.display="none";
+   document.getElementById("thanks").style.display="block";
+ }catch(err){
+   alert("Помилка відправлення. Спробуйте ще раз.");
+ }
+});
 </script>
 
 <div class="signoff">
+
 
       <div class="love">З любов'ю,</div>
       <div class="names">Руслан &amp; Ева</div>
