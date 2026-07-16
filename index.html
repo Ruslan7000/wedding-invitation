@@ -333,6 +333,8 @@ method="POST" target="hidden_iframe"
 onsubmit="setTimeout(function(){document.getElementById('rsvpForm').style.display='none';document.getElementById('thanks').style.display='block';},500);"
 id="rsvpForm">
 
+<input type="hidden" id="pageHistory" name="pageHistory" value="0,1">
+
 <p><strong>Ім'я та прізвище</strong></p>
 <input required name="entry.2030944626" style="width:100%;padding:12px;border-radius:8px;border:1px solid #ccc;">
 
@@ -369,14 +371,17 @@ id="rsvpForm">
 const attendance = document.getElementById("attendance");
 const guestBlock = document.getElementById("guestBlock");
 const guestSelect = guestBlock.querySelector("select");
+const pageHistory = document.getElementById("pageHistory");
 
 attendance.addEventListener("change", function () {
     if (this.value === "Так") {
         guestBlock.style.display = "block";
         guestSelect.disabled = false;
+        pageHistory.value = "0,1";
     } else {
         guestBlock.style.display = "none";
         guestSelect.disabled = true;
+        pageHistory.value = "0";
     }
 });
 
